@@ -1,386 +1,378 @@
 <!DOCTYPE html>
-<html lang="de" class="scroll-smooth">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SchoolFlow - Dein Abitur. Perfekt geplant.</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>SchoolFlow - Dein smarter Oberstufen-Begleiter</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
-        
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #030303;
-            color: #fafafa;
-            overflow-x: hidden;
-        }
-
-        .font-display {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        /* Subtiles, ultra-modernes Hintergrund-Gitter */
-        .bg-grid {
-            background-size: 60px 60px;
+        /* Premium Dark Mode mit weichen Glüheffekten analog zur App */
+        body { 
+            background-color: #050508;
             background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+                radial-gradient(circle at 10% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 90% 85%, rgba(139, 92, 246, 0.12) 0%, transparent 45%);
+            background-attachment: fixed;
+            color: #f1f5f9;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
-        /* Premium Glassmorphismus mit flüssiger Unschärfe */
+        /* Feines technisches Grid-Muster */
+        .grid-bg {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+            background-size: 56px 56px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Schwebende Blobs */
+        .bg-glow-1 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+            top: 5%;
+            left: 5%;
+            z-index: 0;
+            animation: floatGlow 14s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+        .bg-glow-2 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+            top: 40%;
+            right: 5%;
+            z-index: 0;
+            animation: floatGlow 18s ease-in-out infinite alternate-reverse;
+            pointer-events: none;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(50px) scale(1.1); }
+        }
+
+        /* Glassmorphismus Karten */
         .glass-card {
-            background: rgba(10, 10, 12, 0.7);
+            background: rgba(20, 20, 30, 0.55);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.4);
+            border-radius: 2rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .glass-card-interactive {
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .glass-card-interactive:hover {
+        .glass-card:hover {
             border-color: rgba(99, 102, 241, 0.3);
-            background: rgba(15, 15, 20, 0.85);
-            box-shadow: 0 30px 60px -10px rgba(99, 102, 241, 0.15);
+            box-shadow: 0 20px 40px -5px rgba(99, 102, 241, 0.15);
+            transform: translateY(-4px);
         }
 
-        /* Glow-Effekte für Schriften und Ränder */
-        .glow-indigo {
-            filter: drop-shadow(0 0 25px rgba(99, 102, 241, 0.45));
+        .hero-gradient-text {
+            background: linear-gradient(135deg, #ffffff 20%, #a5b4fc 60%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .glow-purple {
-            filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.45));
+        /* Pulsierender Punkt */
+        .pulse-dot {
+            animation: dot-pulse 2s infinite;
         }
-
-        /* Keyframe-Animationen für organische Bewegungen */
-        @keyframes float-slow {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(1deg); }
-        }
-
-        @keyframes float-medium {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-25px) rotate(-1.5deg); }
-        }
-
-        @keyframes pulse-soft {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 0.35; transform: scale(1.08); }
-        }
-
-        .animate-float-1 { animation: float-slow 8s ease-in-out infinite; }
-        .animate-float-2 { animation: float-medium 10s ease-in-out infinite 1s; }
-        .animate-pulse-glow { animation: pulse-soft 6s ease-in-out infinite; }
-
-        /* Shimmer-Effekt für Buttons */
-        @keyframes shimmer-fast {
-            0% { transform: translateX(-150%) skewX(-15deg); }
-            100% { transform: translateX(150%) skewX(-15deg); }
-        }
-
-        .shimmer-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
-            width: 60%;
-            transform: skewX(-20deg) translateX(-150%);
-            transition: all 0.7s ease;
-        }
-
-        .shimmer-btn:hover::before {
-            animation: shimmer-fast 1.5s infinite;
-        }
-
-        /* 3D Perspektiven-Support */
-        .perspective-container {
-            perspective: 1200px;
-        }
-
-        /* Tab-Wechsel-Animationen */
-        .tab-content {
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .tab-content.hidden {
-            opacity: 0;
-            transform: scale(0.95) translateY(10px);
-            pointer-events: none;
-            position: absolute;
+        @keyframes dot-pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
         }
     </style>
 </head>
-<body class="relative min-h-screen flex flex-col bg-[#030303] text-zinc-100 overflow-x-hidden antialiased">
+<body class="relative min-h-screen overflow-x-hidden selection:bg-indigo-500/30 selection:text-white">
+    <div class="grid-bg"></div>
+    <div class="bg-glow-1"></div>
+    <div class="bg-glow-2"></div>
 
-    <!-- Animierte Hintergrund-Ebenen & Ambient Lights -->
-    <div class="fixed inset-0 pointer-events-none z-0">
-        <div class="absolute inset-0 bg-grid opacity-80"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#030303]/60 to-[#030303]"></div>
-        
-        <!-- Premium Ambient Glow Spheres (Dynamische Blobs) -->
-        <div class="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-indigo-600/10 rounded-full blur-[140px] animate-pulse-glow"></div>
-        <div class="absolute bottom-[20%] right-[-10%] w-[700px] h-[700px] bg-purple-600/10 rounded-full blur-[140px] animate-pulse-glow" style="animation-delay: 2s;"></div>
-        <div class="absolute top-[40%] left-[50%] -translate-x-1/2 w-[900px] h-[400px] bg-indigo-500/5 rounded-full blur-[160px] animate-pulse-glow" style="animation-delay: 4s;"></div>
-    </div>
-
-    <!-- Header / Navigation -->
-    <header class="relative z-50 px-6 py-6 md:px-12 max-w-7xl mx-auto w-full flex justify-between items-center">
-        <div class="flex items-center gap-3 group cursor-pointer">
-            <div class="w-11 h-11 bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-[0_8px_25px_rgba(99,102,241,0.3)] group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                <i data-lucide="graduation-cap" class="text-white w-6 h-6"></i>
+    <!-- Navigation Header -->
+    <nav class="relative z-10 w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center rounded-xl shadow-lg shadow-indigo-500/20">
+                <i data-lucide="graduation-cap" class="w-5 h-5 text-white"></i>
             </div>
-            <div>
-                <span class="font-display font-bold text-2xl tracking-tight group-hover:text-indigo-400 transition-colors uppercase">School<span class="text-indigo-400 font-black">Flow</span></span>
-                <span class="block text-[8px] tracking-[0.25em] font-black uppercase text-zinc-500 group-hover:text-zinc-400 transition-colors">Abi-Cockpit v2.0</span>
+            <span class="text-xl font-black text-white tracking-tight">SchoolFlow</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="https://schoolflow26.vercel.app/" class="relative px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs sm:text-sm font-black uppercase tracking-widest text-slate-200 transition-all active:scale-95">
+                Login
+            </a>
+            <a href="https://schoolflow26.vercel.app/" class="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 rounded-full text-xs sm:text-sm font-black uppercase tracking-widest text-white shadow-lg shadow-indigo-600/35 transition-all active:scale-95">
+                Starten
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Sektion -->
+    <header class="relative z-10 w-full max-w-7xl mx-auto px-6 pt-12 pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Text Spalte -->
+        <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/25 px-4 py-1.5 rounded-full text-indigo-300 font-extrabold text-xs uppercase tracking-widest">
+                <span class="w-2 h-2 rounded-full bg-indigo-400 pulse-dot"></span>
+                Bereit für das neue Schuljahr
+            </div>
+            <h1 class="text-4xl sm:text-6xl xl:text-7xl font-black leading-tight tracking-tight">
+                <span class="hero-gradient-text">Noten, Termine, Flow.</span><br>
+                Alles an einem Ort.
+            </h1>
+            <p class="text-slate-400 text-base sm:text-xl font-medium max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                SchoolFlow ist die ultimative App für die gymnasiale Oberstufe. Behalte den perfekten Überblick über deinen Notenschnitt, plane Klausuren, kalkuliere dein Abitur und nutze intelligente Statistiken – blitzschnell auf Laptop und Smartphone.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                <a href="https://schoolflow26.vercel.app/" class="w-full sm:w-auto px-8 py-4.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 rounded-full text-sm font-black uppercase tracking-widest text-white text-center shadow-xl shadow-indigo-600/40 transition-all hover:scale-102 active:scale-95">
+                    Kostenlos App öffnen 🚀
+                </a>
+                <a href="#features" class="w-full sm:w-auto px-8 py-4.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm font-black uppercase tracking-widest text-slate-300 text-center transition-all active:scale-95">
+                    Features entdecken
+                </a>
+            </div>
+
+            <!-- Schnell-Statistiken -->
+            <div class="grid grid-cols-3 gap-4 pt-8 border-t border-white/5 max-w-md mx-auto lg:mx-0">
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-black text-white">100%</h3>
+                    <p class="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Datenschutz</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-black text-white">0s</h3>
+                    <p class="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Ladezeit</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-black text-white">PWA</h3>
+                    <p class="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">App-Standard</p>
+                </div>
             </div>
         </div>
-        
-        <div class="flex items-center gap-4">
-            <a href="https://schoolflow26.vercel.app/" class="shimmer-btn relative overflow-hidden flex items-center gap-3 px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold uppercase tracking-wider rounded-xl transition-all duration-300 hover:scale-105 shadow-[0_10px_30px_rgba(99,102,241,0.3)]">
-                <span>App starten</span>
-                <i data-lucide="arrow-right" class="w-5 h-5"></i>
-            </a>
+
+        <!-- Visueller Mockup Spalte -->
+        <div class="lg:col-span-5 flex justify-center relative">
+            <!-- Glühender Ring hinter dem Handy -->
+            <div class="absolute w-72 h-72 bg-indigo-500/10 rounded-full filter blur-3xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+            
+            <!-- Smartphone Mockup -->
+            <div class="relative w-72 sm:w-80 h-[580px] bg-[#0c0c12] rounded-[3rem] p-3 border-4 border-slate-800 shadow-[0_0_50px_rgba(99,102,241,0.15)] overflow-hidden">
+                <!-- Lautsprecher/Kamera Notch -->
+                <div class="absolute top-4 left-1/2 -translate-x-1/2 w-32 h-5 bg-black rounded-full z-30 flex items-center justify-center">
+                    <span class="w-2.5 h-2.5 rounded-full bg-slate-900 border border-slate-800"></span>
+                </div>
+                
+                <!-- Interner App-Screen Simulator -->
+                <div class="relative w-full h-full rounded-[2.5rem] bg-[#050508] overflow-hidden border border-white/5 flex flex-col justify-between py-6 px-4">
+                    <!-- App Simulator Header -->
+                    <div class="flex justify-between items-center mt-3">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-xs font-black text-white">SchoolFlow</span>
+                        </div>
+                        <span class="text-[10px] font-black text-indigo-400 bg-indigo-400/10 px-2 py-0.5 rounded-full">Hallo, Jonas! 🚀</span>
+                    </div>
+
+                    <!-- App Simulator Schnitt -->
+                    <div class="my-auto text-center py-6 px-4 bg-gradient-to-br from-[#4f46e5] to-[#7c3aed] rounded-[2rem] shadow-lg relative overflow-hidden">
+                        <span class="text-[9px] font-black uppercase tracking-widest text-indigo-200">Dein Schnitt (11/1)</span>
+                        <h4 class="text-5xl font-black text-white mt-1">13,42</h4>
+                        <span class="inline-block mt-2 bg-white/15 px-3 py-1 rounded-full text-[9px] font-bold text-white">Ø Note: 1,2</span>
+                    </div>
+
+                    <!-- App Simulator Fächer-Vorschau -->
+                    <div class="space-y-2">
+                        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest block ml-1">Fächerübersicht</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="p-3 bg-white/5 rounded-2xl border border-white/5 flex flex-col justify-between h-20">
+                                <span class="text-[9px] font-black text-slate-400 uppercase">LK</span>
+                                <span class="text-xs font-black text-white leading-tight">Mathematik</span>
+                                <span class="text-xs font-black text-indigo-300">14 Pkt</span>
+                            </div>
+                            <div class="p-3 bg-white/5 rounded-2xl border border-white/5 flex flex-col justify-between h-20">
+                                <span class="text-[9px] font-black text-slate-400 uppercase">LK</span>
+                                <span class="text-xs font-black text-white leading-tight">Physik</span>
+                                <span class="text-xs font-black text-emerald-400">13 Pkt</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- App Simulator Bottom-Nav -->
+                    <div class="mt-4 p-1 bg-white/5 rounded-full border border-white/10 flex justify-between">
+                        <span class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white"><i data-lucide="home" class="w-4 h-4"></i></span>
+                        <span class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400"><i data-lucide="layout-grid" class="w-4 h-4"></i></span>
+                        <span class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400"><i data-lucide="calendar-check" class="w-4 h-4"></i></span>
+                        <span class="w-8 h-8 rounded-full flex items-center justify-center text-slate-400"><i data-lucide="graduation-cap" class="w-4 h-4"></i></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <main class="relative z-10 flex-grow flex flex-col items-center justify-center px-6 pt-16 pb-24 max-w-5xl mx-auto w-full">
-        <div class="space-y-10 text-center w-full">
-            <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 backdrop-blur-md hover:bg-indigo-500/20 transition-all duration-300 hover:scale-105 cursor-default">
-                <span class="relative flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-                </span>
-                <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-300">Dein Upgrade für die Oberstufe</span>
-            </div>
-            
-            <h1 class="font-display text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05]">
-                Dein Abitur.<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-white glow-indigo">Perfekt geplant.</span>
-            </h1>
-            
-            <p class="text-lg sm:text-xl text-zinc-400 font-medium max-w-2xl mx-auto leading-relaxed">
-                SchoolFlow ist dein KI-gestütztes Dashboard für die gymnasiale Oberstufe. Strukturiere Klausuren, plane Lerneinheiten und simuliere deinen Notendurchschnitt – ablenkungsfrei und immer einsatzbereit.
+    <!-- Feature Sektion -->
+    <section id="features" class="relative z-10 w-full max-w-7xl mx-auto px-6 py-24 border-t border-white/5">
+        <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+            <span class="text-indigo-400 font-extrabold text-xs uppercase tracking-widest">Die wichtigsten Features</span>
+            <h2 class="text-3xl sm:text-5xl font-black text-white">Gemacht für maximale Oberstufen-Performance</h2>
+            <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+                Schluss mit unübersichtlichen Tabellen und Zetteln. SchoolFlow liefert dir modernste Werkzeuge zur genauen und unkomplizierten Notenberechnung.
             </p>
-
-            <!-- CTAs -->
-            <div class="flex flex-col sm:flex-row items-center gap-6 justify-center mt-8">
-                <a href="https://schoolflow26.vercel.app/" class="shimmer-btn relative overflow-hidden flex items-center justify-center gap-3 px-10 py-5 bg-white text-black font-extrabold uppercase tracking-widest text-sm rounded-2xl w-full sm:w-auto shadow-[0_20px_40px_rgba(255,255,255,0.15)] transition-all duration-300 hover:scale-105">
-                    <span>App jetzt starten</span>
-                    <i data-lucide="rocket" class="w-5 h-5"></i>
-                </a>
-                <a href="#features" class="flex items-center justify-center gap-3 px-10 py-5 bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white font-extrabold uppercase tracking-widest text-sm rounded-2xl w-full sm:w-auto transition-all duration-300 hover:scale-102">
-                    <span>Features ansehen</span>
-                    <i data-lucide="chevron-down" class="w-5 h-5"></i>
-                </a>
-            </div>
-
-            <!-- Trust / Features Badge -->
-            <div class="pt-8 flex flex-wrap items-center justify-center gap-8 text-zinc-500 text-sm font-semibold">
-                <span class="flex items-center gap-2"><i data-lucide="shield-check" class="w-5 h-5 text-emerald-500"></i> Keine Werbung</span>
-                <span class="flex items-center gap-2"><i data-lucide="cloud" class="w-5 h-5 text-indigo-400"></i> Offline-fähig (PWA)</span>
-                <span class="flex items-center gap-2"><i data-lucide="zap" class="w-5 h-5 text-purple-400"></i> 100% Kostenlos</span>
-            </div>
         </div>
-    </main>
 
-    <!-- Features Section / Grid -->
-    <section id="features" class="relative z-10 py-28 bg-gradient-to-b from-transparent via-[#08080a] to-transparent">
-        <div class="max-w-7xl mx-auto px-6">
-            
-            <div class="text-center mb-24">
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 mb-4">
-                    <span class="text-[9px] font-black uppercase tracking-widest text-purple-300">Features im Überblick</span>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <!-- Feature 1 -->
+            <div class="glass-card p-8 space-y-6">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                    <i data-lucide="trending-up" class="w-6 h-6"></i>
                 </div>
-                <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-black mb-6 tracking-tight">Ein Cockpit für Bestleistungen</h2>
-                <p class="text-zinc-400 text-sm sm:text-base max-w-2xl mx-auto">
-                    Keine Excel-Tabellen oder Zettelwirtschaft mehr. Hol dir die Komplettlösung für ein erfolgreiches und stressfreies Abitur.
+                <h3 class="text-xl font-black text-white">Schnittberechnung in Echtzeit</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Trage deine Noten ein und lasse den gewichteten Schnitt für Klausuren und sonstige Leistungen sofort präzise berechnen – auf Wunsch auch mit doppelt gewichtetem Leistungskurs-Faktor.
                 </p>
             </div>
 
-            <!-- 3x2 Responsive Feature Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                
-                <!-- Card 1 -->
-                <div class="interactive-card relative glass-card rounded-[2rem] p-8 group cursor-pointer overflow-hidden bg-[#0d0d12]/40 transition-all duration-300 hover:border-indigo-500/40" data-color="99, 102, 241">
-                    <div class="spotlight absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none z-0"></div>
-                    <div class="card-content relative z-10 pointer-events-none">
-                        <div class="icon-wrapper w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-6 border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.1)] group-hover:bg-indigo-500/25 group-hover:text-indigo-300 group-hover:border-indigo-500/40 transition-all duration-300">
-                            <i data-lucide="calendar-days" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-xl font-bold font-display mb-3 text-white group-hover:text-indigo-300 transition-colors duration-300">Lern- & Klausurplaner</h3>
-                        <p class="text-zinc-400 leading-relaxed text-xs sm:text-sm group-hover:text-zinc-300 transition-colors duration-300">
-                            Behalte alle Prüfungs-Deadlines lückenlos im Blick. Erhalte automatisierte Countdowns und strukturiere Vorbereitungsphasen ohne Last-Minute-Stress.
-                        </p>
-                    </div>
+            <!-- Feature 2 -->
+            <div class="glass-card p-8 space-y-6">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                    <i data-lucide="calendar" class="w-6 h-6"></i>
                 </div>
-
-                <!-- Card 2 -->
-                <div class="interactive-card relative glass-card rounded-[2rem] p-8 group cursor-pointer overflow-hidden bg-[#0d0d12]/40 transition-all duration-300 hover:border-emerald-500/40" data-color="16, 185, 129">
-                    <div class="spotlight absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none z-0"></div>
-                    <div class="card-content relative z-10 pointer-events-none">
-                        <div class="icon-wrapper w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-6 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)] group-hover:bg-emerald-500/25 group-hover:text-emerald-300 group-hover:border-emerald-500/40 transition-all duration-300">
-                            <i data-lucide="calculator" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-xl font-bold font-display mb-3 text-white group-hover:text-emerald-300 transition-colors duration-300">Abiturschnitt-Rechner</h3>
-                        <p class="text-zinc-400 leading-relaxed text-xs sm:text-sm group-hover:text-zinc-300 transition-colors duration-300">
-                            Berechne sekundenschnell deine Endnote. Durch die automatische Abdeckung aller länderspezifischen Einbringungspflichten bleibst du immer fehlerfrei.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="interactive-card relative glass-card rounded-[2rem] p-8 group cursor-pointer overflow-hidden bg-[#0d0d12]/40 transition-all duration-300 hover:border-rose-500/40" data-color="244, 63, 94">
-                    <div class="spotlight absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none z-0"></div>
-                    <div class="card-content relative z-10 pointer-events-none">
-                        <div class="icon-wrapper w-14 h-14 rounded-2xl bg-rose-500/10 flex items-center justify-center text-rose-400 mb-6 border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)] group-hover:bg-rose-500/25 group-hover:text-rose-300 group-hover:border-rose-500/40 transition-all duration-300">
-                            <i data-lucide="line-chart" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-xl font-bold font-display mb-3 text-white group-hover:text-rose-300 transition-colors duration-300">Leistungsanalyse</h3>
-                        <p class="text-zinc-400 leading-relaxed text-xs sm:text-sm group-hover:text-zinc-300 transition-colors duration-300">
-                            Nutze detaillierte statistische Auswertungen deiner Notenentwicklung. Erkenne frühzeitig Tendenzen in Problemfächern, um deine Ziele zu erreichen.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="interactive-card relative glass-card rounded-[2rem] p-8 group cursor-pointer overflow-hidden bg-[#0d0d12]/40 transition-all duration-300 hover:border-amber-500/40" data-color="245, 158, 11">
-                    <div class="spotlight absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none z-0"></div>
-                    <div class="card-content relative z-10 pointer-events-none">
-                        <div class="icon-wrapper w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400 mb-6 border border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.1)] group-hover:bg-amber-500/25 group-hover:text-amber-300 group-hover:border-amber-500/40 transition-all duration-300">
-                            <i data-lucide="smartphone" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-xl font-bold font-display mb-3 text-white group-hover:text-amber-300 transition-colors duration-300">Mobile Progressive App</h3>
-                        <p class="text-zinc-400 leading-relaxed text-xs sm:text-sm group-hover:text-zinc-300 transition-colors duration-300">
-                            Installiere SchoolFlow einfach wie eine native App direkt auf deinem Homescreen. Keine Stores, keine Updates – einfach und superschnell geöffnet.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Card 5 -->
-                <div class="interactive-card relative glass-card rounded-[2rem] p-8 group cursor-pointer overflow-hidden bg-[#0d0d12]/40 transition-all duration-300 hover:border-blue-500/40" data-color="59, 130, 246">
-                    <div class="spotlight absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none z-0"></div>
-                    <div class="card-content relative z-10 pointer-events-none">
-                        <div class="icon-wrapper w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 mb-6 border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)] group-hover:bg-blue-500/25 group-hover:text-blue-300 group-hover:border-blue-500/40 transition-all duration-300">
-                            <i data-lucide="wifi-off" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-xl font-bold font-display mb-3 text-white group-hover:text-blue-300 transition-colors duration-300">Echter Offline-Sync</h3>
-                        <p class="text-zinc-400 leading-relaxed text-xs sm:text-sm group-hover:text-zinc-300 transition-colors duration-300">
-                            Kein Empfang im Schulgebäude? Kein Problem. Deine Noten und Termine sind voll offline editierbar und synchronisieren sich, sobald du Netz hast.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Card 6 -->
-                <div class="interactive-card relative glass-card rounded-[2rem] p-8 group cursor-pointer overflow-hidden bg-[#0d0d12]/40 transition-all duration-300 hover:border-purple-500/40" data-color="168, 85, 247">
-                    <div class="spotlight absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none z-0"></div>
-                    <div class="card-content relative z-10 pointer-events-none">
-                        <div class="icon-wrapper w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-400 mb-6 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)] group-hover:bg-purple-500/25 group-hover:text-purple-300 group-hover:border-purple-500/40 transition-all duration-300">
-                            <i data-lucide="layout" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-xl font-bold font-display mb-3 text-white group-hover:text-purple-300 transition-colors duration-300">Ablenkungsfreie UI</h3>
-                        <p class="text-zinc-400 leading-relaxed text-xs sm:text-sm group-hover:text-zinc-300 transition-colors duration-300">
-                            Fokussiertes, edles Dark-Mode-Design. Keine nervigen Popups, keine störenden Ablenkungen – deine Schulleistung steht im Mittelpunkt.
-                        </p>
-                    </div>
-                </div>
-
+                <h3 class="text-xl font-black text-white">Intelligenter Planer</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Organisiere deine Klausuren und Tests im innovativen Kalender mit direkter Tagesvorschau. Eine anstehende Klausur blockiert am Tag selbst offene Aufgaben für maximale Konzentration.
+                </p>
             </div>
 
-            <!-- Call-To-Action Block in Features -->
-            <div class="mt-24 text-center">
-                <a href="https://schoolflow26.vercel.app/" class="shimmer-btn relative overflow-hidden inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-extrabold uppercase tracking-widest text-sm rounded-2xl shadow-[0_20px_50px_rgba(99,102,241,0.3)] transition-all duration-300 hover:scale-105">
-                    <span>Jetzt kostenlos durchstarten</span>
-                    <i data-lucide="sparkles" class="w-5 h-5"></i>
-                </a>
-                <p class="text-zinc-500 text-xs mt-4 font-semibold">Keine Registrierung oder Kreditkarte erforderlich</p>
+            <!-- Feature 3 -->
+            <div class="glass-card p-8 space-y-6">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                    <i data-lucide="award" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-xl font-black text-white">Abiturrechner ohne Wischen</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Behalte alle 4 Halbjahre (11/1 bis 12/2) in einer kompakten, modernisierten Tabelle fest im Griff. Komplett optimiert, sodass du selbst auf kleinsten Handys nicht scrollen musst.
+                </p>
             </div>
 
+            <!-- Feature 4 -->
+            <div class="glass-card p-8 space-y-6">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                    <i data-lucide="smartphone" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-xl font-black text-white">PWA-Technologie</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Installiere SchoolFlow direkt über deinen Browser als vollwertige App auf deinem Startbildschirm. Schnelle Startzeiten, kein Datenverlust und voller Offline-Support.
+                </p>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="glass-card p-8 space-y-6">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                    <i data-lucide="shield-check" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-xl font-black text-white">Sichere Cloud-Synchronisation</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Dank verschlüsselter Firebase-Anbindung sind deine Noten sicher gespeichert und synchronisieren sich ohne Verzögerung zwischen deinem PC, Tablet und Smartphone.
+                </p>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="glass-card p-8 space-y-6">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                    <i data-lucide="sparkles" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-xl font-black text-white">Liquid Glass UI</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Erlebe ein absolut premiumhaftes Benutzererlebnis. Weiche dark-glow Effekte, flüssige Swipe-Gesten zum Löschen und breite, haptische Schieberegler für Noten und Gewichtung.
+                </p>
+            </div>
         </div>
     </section>
 
-    <!-- Footer Area -->
-    <footer class="relative z-10 py-16 border-t border-zinc-900 bg-zinc-950/20">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
-            
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-zinc-900 border border-zinc-800 rounded-lg flex items-center justify-center text-zinc-400">
-                    <i data-lucide="graduation-cap" class="w-4 h-4"></i>
-                </div>
-                <p class="text-[10px] font-bold uppercase tracking-[0.35em] text-zinc-500">
-                    © 2026 SCHOOLFLOW. GESTALTET FÜR DEINEN ERFOLG.
+    <!-- Installations-Guide Sektion -->
+    <section class="relative z-10 w-full max-w-5xl mx-auto px-6 py-12 border-t border-white/5">
+        <div class="glass-card p-8 md:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-indigo-950/20">
+            <div class="lg:col-span-7 space-y-4">
+                <span class="text-indigo-400 font-extrabold text-xs uppercase tracking-widest">Sekundenschnelle Einrichtung</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-white">SchoolFlow als App installieren</h2>
+                <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+                    Da SchoolFlow eine moderne Progressive Web App (PWA) ist, musst du sie nicht aus dem App Store laden. Du kannst sie direkt aus dem Browser auf deinem Homescreen platzieren.
                 </p>
+                <div class="space-y-3 pt-2">
+                    <div class="flex gap-3 text-xs sm:text-sm text-slate-300">
+                        <span class="w-5.5 h-5.5 bg-white/10 rounded-full flex items-center justify-center font-black shrink-0">1</span>
+                        <p>Öffne <strong class="text-indigo-400">schoolflow26.vercel.app</strong> im Safari (iOS) oder Chrome (Android).</p>
+                    </div>
+                    <div class="flex gap-3 text-xs sm:text-sm text-slate-300">
+                        <span class="w-5.5 h-5.5 bg-white/10 rounded-full flex items-center justify-center font-black shrink-0">2</span>
+                        <p>Tippe auf das <strong class="text-indigo-400">Teilen-Symbol</strong> (iOS) oder die <strong class="text-indigo-400">drei Punkte</strong> (Android).</p>
+                    </div>
+                    <div class="flex gap-3 text-xs sm:text-sm text-slate-300">
+                        <span class="w-5.5 h-5.5 bg-white/10 rounded-full flex items-center justify-center font-black shrink-0">3</span>
+                        <p>Wähle <strong class="text-indigo-400">"Zum Home-Bildschirm hinzufügen"</strong> und starte direkt durch!</p>
+                    </div>
+                </div>
             </div>
-            
-            <div class="flex items-center gap-6">
-                <a href="https://schoolflow26.vercel.app/" class="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 rounded-xl text-zinc-400 hover:text-white transition-all text-[10px] font-bold uppercase tracking-widest">
-                    Zur Web-App
+            <div class="lg:col-span-5 flex justify-center">
+                <a href="https://schoolflow26.vercel.app/" class="w-full sm:w-auto px-8 py-5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 rounded-full text-sm font-black uppercase tracking-widest text-white text-center shadow-lg transition-transform active:scale-95">
+                    Zur Web-App 🚀
                 </a>
             </div>
+        </div>
+    </section>
 
+    <!-- FAQ Sektion -->
+    <section class="relative z-10 w-full max-w-4xl mx-auto px-6 py-24 border-t border-white/5">
+        <div class="text-center space-y-4 mb-12">
+            <span class="text-indigo-400 font-extrabold text-xs uppercase tracking-widest">Häufig gestellte Fragen</span>
+            <h2 class="text-2xl sm:text-4xl font-black text-white">Häufige Fragen zu SchoolFlow</h2>
+        </div>
+
+        <div class="space-y-4">
+            <div class="p-6 bg-white/5 rounded-2xl border border-white/5 space-y-2">
+                <h4 class="font-black text-white text-base">Ist SchoolFlow wirklich kostenlos?</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Ja! Alle Grundfunktionen von SchoolFlow stehen dir völlig kostenfrei zur Verfügung, um dich perfekt durch deine Oberstufenzeit zu begleiten.
+                </p>
+            </div>
+            <div class="p-6 bg-white/5 rounded-2xl border border-white/5 space-y-2">
+                <h4 class="font-black text-white text-base">Werden meine Daten vertraulich behandelt?</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Absolut. Deine Noten und Planer-Einträge werden sicher verschlüsselt in Firebase unter deiner persönlichen Benutzer-ID gespeichert. Niemand außer dir hat Zugriff darauf.
+                </p>
+            </div>
+            <div class="p-6 bg-white/5 rounded-2xl border border-white/5 space-y-2">
+                <h4 class="font-black text-white text-base">Wie funktioniert die automatische Halbjahr-Berechnung?</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    In den Einstellungen tippst du einfach das Startjahr deiner Klasse 11 ein. SchoolFlow berechnet daraus automatisch das aktuelle Halbjahr für jeden Termin und jede Note anhand des Datums.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 w-full border-t border-white/5 py-12 text-center text-slate-500">
+        <div class="max-w-7xl mx-auto px-6 space-y-4">
+            <div class="flex justify-center items-center gap-2">
+                <div class="w-6 h-6 bg-indigo-600 flex items-center justify-center rounded-lg">
+                    <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-white"></i>
+                </div>
+                <span class="font-black text-white tracking-tight text-sm">SchoolFlow</span>
+            </div>
+            <p class="text-xs font-medium">© 2026 SchoolFlow. Alle Rechte vorbehalten. Dein ultimatives Oberstufen-Tool.</p>
         </div>
     </footer>
 
-    <!-- Interactive JS Core logic -->
     <script>
-        // Initialisiere Lucide Icons
+        // Lucide Icons initialisieren
         lucide.createIcons();
-
-        // 3D Interactive Card Parallax Logic
-        document.addEventListener("DOMContentLoaded", () => {
-            const cards = document.querySelectorAll('.interactive-card');
-            const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-            
-            if (!isTouchDevice) {
-                cards.forEach(card => {
-                    const spotlight = card.querySelector('.spotlight');
-                    const content = card.querySelector('.card-content');
-                    const iconWrapper = card.querySelector('.icon-wrapper');
-                    const color = card.dataset.color || '99, 102, 241'; 
-                    
-                    card.addEventListener('mousemove', (e) => {
-                        const rect = card.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        
-                        const centerX = rect.width / 2;
-                        const centerY = rect.height / 2;
-                        
-                        // Sanfter Neigungswinkel-Effekt
-                        const rotateX = ((y - centerY) / centerY) * -12; 
-                        const rotateY = ((x - centerX) / centerX) * 12;
-                        
-                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                        
-                        // Parallaxer Sprung-Effekt für die inneren Elemente
-                        if (content) content.style.transform = `translateZ(25px)`;
-                        if (iconWrapper) iconWrapper.style.transform = `translateZ(45px) scale(1.05)`;
-                        
-                        // Farbe des Spotlight-Scheins anpassen
-                        if (spotlight) {
-                            spotlight.style.background = `radial-gradient(400px circle at ${x}px ${y}px, rgba(${color}, 0.12), transparent 50%)`;
-                            spotlight.style.opacity = '1';
-                        }
-                    });
-                    
-                    card.addEventListener('mouseleave', () => {
-                        // Zurücksetzen in Ausgangsposition
-                        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-                        
-                        if (content) content.style.transform = `translateZ(0px)`;
-                        if (iconWrapper) iconWrapper.style.transform = `translateZ(0px) scale(1)`;
-                        
-                        if (spotlight) {
-                            spotlight.style.opacity = '0';
-                        }
-                    });
-                });
-            }
-        });
     </script>
 </body>
 </html>
